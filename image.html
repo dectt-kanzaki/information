@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>画像容量アニメーション</title>
+<style>
+
+body{
+
+    font-family:sans-serif;
+
+    background:#f4f6f8;
+
+    padding:20px;
+
+}
+
+.container{
+
+    max-width:800px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+}
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.input-group{
+
+    margin-bottom:20px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+}
+
+input, select{
+
+    width:100%;
+
+    padding:12px;
+
+    font-size:18px;
+
+    border-radius:8px;
+
+    border:1px solid #ccc;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    font-size:20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4f8cff;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+.result{
+
+    margin-top:30px;
+
+    font-size:22px;
+
+    line-height:2;
+
+}
+
+.bar-area{
+
+    margin-top:30px;
+
+}
+
+.bar-label{
+
+    margin-bottom:10px;
+
+    font-weight:bold;
+
+}
+
+.bar-bg{
+
+    width:100%;
+
+    height:40px;
+
+    background:#ddd;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.bar{
+
+    height:100%;
+
+    width:0%;
+
+    background:linear-gradient(90deg,#4f8cff,#00c896);
+
+    transition:width 1s ease;
+
+}
+
+.visual{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+    gap:10px;
+
+    height:220px;
+
+}
+
+.block{
+
+    width:60px;
+
+    background:#4f8cff;
+
+    border-radius:10px 10px 0 0;
+
+    transition:height 1s ease;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:bold;
+
+}
+
+.formula{
+
+    margin-top:20px;
+
+    background:#eef3ff;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>画像容量アニメーション</h1>
+<div class="input-group">
+<label>横画素数</label>
+<input type="number" id="width" value="640">
+</div>
+<div class="input-group">
+<label>縦画素数</label>
+<input type="number" id="height" value="480">
+</div>
+<div class="input-group">
+<label>色深度</label>
+<select id="bit">
+<option value="1">1bit</option>
+<option value="8">8bit</option>
+<option value="24" selected>24bit</option>
+<option value="32">32bit</option>
+</select>
+</div>
+<button onclick="calculate()">容量を可視化する</button>
+<div class="formula">
+
+データ量 = 横 × 縦 × 色深度
+</div>
+<div class="result" id="result">
+
+ここに結果が表示されます
+</div>
+<div class="bar-area">
+<div class="bar-label">容量イメージ</div>
+<div class="bar-bg">
+<div class="bar" id="bar"></div>
+</div>
+</div>
+<div class="visual">
+<div class="block" id="block1">小</div>
+<div class="block" id="block2">中</div>
+<div class="block" id="block3">大</div>
+</div>
+</div>
+<script>
+
+function calculate(){
+
+    const width = Number(document.getElementById("width").value);
+
+    const height = Number(document.getElementById("height").value);
+
+    const bit = Number(document.getElementById("bit").value);
+
+    const totalBits = width * height * bit;
+
+    const totalBytes = totalBits / 8;
+
+    const MB = totalBytes / 1024 / 1024;
+
+    const roundedMB = MB.toFixed(2);
+
+    document.getElementById("result").innerHTML = `
+
+    総画素数：${(width * height).toLocaleString()} 画素<br>
+
+    データ量：約 ${roundedMB} MB
+
+    `;
+
+    // バー最大値（例：20MB）
+
+    const maxMB = 20;
+
+    let percentage = (MB / maxMB) * 100;
+
+    if(percentage > 100){
+
+        percentage = 100;
+
+    }
+
+    document.getElementById("bar").style.width = percentage + "%";
+
+    // ブロック高さ変化
+
+    const h1 = Math.max(20, percentage * 1.2);
+
+    const h2 = Math.max(40, percentage * 1.8);
+
+    const h3 = Math.max(60, percentage * 2.5);
+
+    document.getElementById("block1").style.height = h1 + "px";
+
+    document.getElementById("block2").style.height = h2 + "px";
+
+    document.getElementById("block3").style.height = h3 + "px";
+
+}
+</script>
+</body>
+</html>
+ 
