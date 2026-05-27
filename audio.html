@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>音声データ 連動シミュレーター</title>
+<style>
+
+/* =========================
+
+   全体
+
+========================= */
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    padding:40px;
+
+    font-family:sans-serif;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #fdf6ff,
+
+        #eef7ff,
+
+        #fffde9
+
+    );
+
+}
+
+/* =========================
+
+   アプリ本体
+
+========================= */
+
+.app{
+
+    width:100%;
+
+    max-width:1300px;
+
+    margin:auto;
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:40px;
+
+    box-shadow:
+
+    0 10px 35px rgba(0,0,0,0.08);
+
+}
+
+/* =========================
+
+   タイトル
+
+========================= */
+
+h1{
+
+    text-align:center;
+
+    color:#555;
+
+    margin-bottom:45px;
+
+    font-size:44px;
+
+}
+
+/* =========================
+
+   グリッド
+
+========================= */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:30px;
+
+}
+
+@media(max-width:1000px){
+
+    .grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* =========================
+
+   セクション
+
+========================= */
+
+.section{
+
+    width:100%;
+
+    margin-left:auto;
+
+    margin-right:auto;
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-sizing:border-box;
+
+    box-shadow:
+
+    0 5px 15px rgba(0,0,0,0.05);
+
+}
+
+/* ① */
+
+.section1{
+
+    background:#eef6ff;
+
+}
+
+/* ②③ */
+
+.section2{
+
+    background:#f4fff4;
+
+}
+
+/* ④ */
+
+.section4{
+
+    background:#fff8ef;
+
+    max-width:900px;
+
+    margin:40px auto 0 auto;
+
+}
+
+/* 学習 */
+
+.sectionInfo{
+
+    background:#fffdf4;
+
+    border:2px solid #f7efc9;
+
+    max-width:1000px;
+
+    margin:40px auto 0 auto;
+
+}
+
+/* =========================
+
+   見出し
+
+========================= */
+
+h2{
+
+    margin-top:0;
+
+    color:#666;
+
+    font-size:36px;
+
+    text-align:center;
+
+}
+
+/* =========================
+
+   ラベル
+
+========================= */
+
+label{
+
+    display:block;
+
+    margin-top:20px;
+
+    margin-bottom:10px;
+
+    font-weight:bold;
+
+    color:#555;
+
+    font-size:26px;
+
+}
+
+/* =========================
+
+   スライダー
+
+========================= */
+
+input[type="range"]{
+
+    width:100%;
+
+    accent-color:#8fb8ff;
+
+}
+
+/* =========================
+
+   数値入力
+
+========================= */
+
+input[type="number"]{
+
+    width:100%;
+
+    padding:18px;
+
+    font-size:30px;
+
+    border-radius:15px;
+
+    border:2px solid #ddd;
+
+    box-sizing:border-box;
+
+}
+
+/* =========================
+
+   値表示
+
+========================= */
+
+.value{
+
+    margin-top:12px;
+
+    font-size:34px;
+
+    color:#444;
+
+    text-align:center;
+
+}
+
+/* =========================
+
+   キャンバス
+
+========================= */
+
+canvas{
+
+    display:block;
+
+    width:100%;
+
+    background:white;
+
+    border-radius:20px;
+
+    margin:25px auto 0 auto;
+
+    border:2px solid #ddd;
+
+}
+
+/* =========================
+
+   符号化
+
+========================= */
+
+.binary{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-top:25px;
+
+    font-family:monospace;
+
+    font-size:30px;
+
+    line-height:2;
+
+    overflow:auto;
+
+    border:2px solid #dfeeff;
+
+    text-align:center;
+
+}
+
+/* =========================
+
+   計算入力
+
+========================= */
+
+.calc-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    320px 1fr;
+
+    gap:20px;
+
+    align-items:center;
+
+    justify-content:center;
+
+    max-width:800px;
+
+    margin:30px auto 0 auto;
+
+}
+
+.calc-grid label{
+
+    margin:0;
+
+    font-size:28px;
+
+}
+
+.calc-grid input{
+
+    margin:0;
+
+}
+
+/* =========================
+
+   ボタン
+
+========================= */
+
+button{
+
+    margin:35px auto 0 auto;
+
+    display:block;
+
+    width:100%;
+
+    max-width:800px;
+
+    padding:24px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:#9fc2ff;
+
+    color:white;
+
+    font-size:34px;
+
+    cursor:pointer;
+
+    transition:0.2s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+
+   結果
+
+========================= */
+
+.result{
+
+    max-width:800px;
+
+    margin:30px auto 0 auto;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    font-size:36px;
+
+    line-height:2;
+
+    border:2px solid #eee;
+
+    text-align:center;
+
+}
+
+/* =========================
+
+   学習ポイント
+
+========================= */
+
+.step{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:#ffffffaa;
+
+    font-size:24px;
+
+    line-height:2;
+
+}
+
+.formula{
+
+    margin-top:20px;
+
+    font-size:28px;
+
+    line-height:2;
+
+}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>音声データ 連動シミュレーター</h1>
+<div class="grid">
+<!-- ① -->
+<div class="section section1">
+<h2>① サンプリング</h2>
+<label>サンプリング数</label>
+<input
+
+type="range"
+
+id="sampling"
+
+min="4"
+
+max="30"
+
+value="12">
+<div class="value">
+<span id="samplingValue"></span> 点
+</div>
+<canvas
+
+id="samplingCanvas"
+
+width="500"
+
+height="250"></canvas>
+</div>
+<!-- ②③ -->
+<div class="section section2">
+<h2>② 量子化 → ③ 符号化</h2>
+<label>量子化ビット数</label>
+<input
+
+type="range"
+
+id="quantization"
+
+min="1"
+
+max="8"
+
+value="3">
+<div class="value">
+<span id="quantizationValue"></span> bit
+</div>
+<canvas
+
+id="quantizationCanvas"
+
+width="500"
+
+height="250"></canvas>
+<div class="binary" id="binaryOutput"></div>
+</div>
+</div>
+<!-- ④ -->
+<div class="section section4">
+<h2>④ 音声データ容量計算</h2>
+<div class="calc-grid">
+<label>標本化周波数（Hz）</label>
+<input type="number" id="sampleRate" value="44100">
+<label>量子化ビット数（bit）</label>
+<input type="number" id="bitDepth" value="16">
+<label>チャンネル数</label>
+<input type="number" id="channels" value="2">
+<label>録音時間（秒）</label>
+<input type="number" id="duration" value="10">
+</div>
+<button onclick="calculateAudioSize()">
+
+容量を計算する
+</button>
+<div class="result" id="result">
+
+ここに結果が表示されます
+</div>
+</div>
+<!-- 学習ポイント -->
+<div class="section sectionInfo">
+<h2>学習ポイント</h2>
+<div class="step">
+
+① サンプリング  
+
+→ 波形から一定間隔で値を取得
+</div>
+<div class="step">
+
+② 量子化  
+
+→ 音の大きさを段階化
+</div>
+<div class="step">
+
+③ 符号化  
+
+→ 段階値を2進数へ変換
+</div>
+<div class="formula">
+
+量子化段階数：
+<br><br>
+
+2ⁿ
+<br><br>
+
+音声データ量：
+<br><br>
+
+データ量 =
+
+標本化周波数 ×
+
+量子化ビット数 ×
+
+チャンネル数 ×
+
+時間
+</div>
+</div>
+</div>
+<script>
+
+const samplingSlider =
+
+document.getElementById("sampling");
+
+const quantizationSlider =
+
+document.getElementById("quantization");
+
+const samplingValue =
+
+document.getElementById("samplingValue");
+
+const quantizationValue =
+
+document.getElementById("quantizationValue");
+
+const binaryOutput =
+
+document.getElementById("binaryOutput");
+
+const sCanvas =
+
+document.getElementById("samplingCanvas");
+
+const qCanvas =
+
+document.getElementById("quantizationCanvas");
+
+const sctx =
+
+sCanvas.getContext("2d");
+
+const qctx =
+
+qCanvas.getContext("2d");
+
+let sampledData = [];
+
+/* ① サンプリング */
+
+function drawSampling(){
+
+    sampledData = [];
+
+    const samples =
+
+    Number(samplingSlider.value);
+
+    samplingValue.textContent =
+
+    samples;
+
+    sctx.clearRect(0,0,500,250);
+
+    sctx.beginPath();
+
+    for(let x=0;x<500;x++){
+
+        const y =
+
+        125 +
+
+        Math.sin(x * 0.03) * 80;
+
+        if(x===0){
+
+            sctx.moveTo(x,y);
+
+        }else{
+
+            sctx.lineTo(x,y);
+
+        }
+
+    }
+
+    sctx.strokeStyle = "#7dafff";
+
+    sctx.lineWidth = 4;
+
+    sctx.stroke();
+
+    for(let i=0;i<samples;i++){
+
+        const x =
+
+        (500/(samples-1))*i;
+
+        const y =
+
+        125 +
+
+        Math.sin(x*0.03)*80;
+
+        sampledData.push({
+
+            x:x,
+
+            y:y
+
+        });
+
+        sctx.beginPath();
+
+        sctx.arc(x,y,8,0,Math.PI*2);
+
+        sctx.fillStyle = "#ff8fb1";
+
+        sctx.fill();
+
+    }
+
+}
+
+/* ②③ */
+
+function drawQuantization(){
+
+    const bits =
+
+    Number(quantizationSlider.value);
+
+    quantizationValue.textContent =
+
+    bits;
+
+    qctx.clearRect(0,0,500,250);
+
+    const levels =
+
+    Math.pow(2,bits);
+
+    for(let i=0;i<levels;i++){
+
+        const y =
+
+        20 +
+
+        (210/(levels-1))*i;
+
+        qctx.beginPath();
+
+        qctx.moveTo(0,y);
+
+        qctx.lineTo(500,y);
+
+        qctx.strokeStyle = "#ddd";
+
+        qctx.stroke();
+
+    }
+
+    let binaryText = "";
+
+    sampledData.forEach(data=>{
+
+        const normalized =
+
+        (data.y - 20) / 210;
+
+        let level =
+
+        Math.round(normalized*(levels-1));
+
+        if(level < 0){
+
+            level = 0;
+
+        }
+
+        if(level >= levels){
+
+            level = levels-1;
+
+        }
+
+        const quantizedY =
+
+        20 +
+
+        (210/(levels-1))*level;
+
+        qctx.beginPath();
+
+        qctx.arc(
+
+            data.x,
+
+            quantizedY,
+
+            9,
+
+            0,
+
+            Math.PI*2
+
+        );
+
+        qctx.fillStyle = "#72d6c9";
+
+        qctx.fill();
+
+        const binary =
+
+        level
+
+        .toString(2)
+
+        .padStart(bits,"0");
+
+        binaryText +=
+
+        `[${binary}] `;
+
+    });
+
+    binaryOutput.textContent =
+
+    binaryText;
+
+}
+
+/* ④ 計算 */
+
+function calculateAudioSize(){
+
+    const sampleRate =
+
+    Number(document.getElementById("sampleRate").value);
+
+    const bitDepth =
+
+    Number(document.getElementById("bitDepth").value);
+
+    const channels =
+
+    Number(document.getElementById("channels").value);
+
+    const duration =
+
+    Number(document.getElementById("duration").value);
+
+    const totalBits =
+
+    sampleRate *
+
+    bitDepth *
+
+    channels *
+
+    duration;
+
+    const totalBytes =
+
+    totalBits / 8;
+
+    const KB =
+
+    totalBytes / 1024;
+
+    const MB =
+
+    KB / 1024;
+
+    document.getElementById("result").innerHTML = `
+
+    ${totalBits.toLocaleString()} bit
+<br><br>
+
+    ${totalBytes.toLocaleString()} Byte
+<br><br>
+
+    ${KB.toFixed(2)} KB
+<br><br>
+
+    ${MB.toFixed(2)} MB
+
+    `;
+
+}
+
+/* 更新 */
+
+function update(){
+
+    drawSampling();
+
+    drawQuantization();
+
+}
+
+samplingSlider.addEventListener(
+
+"input",
+
+update
+
+);
+
+quantizationSlider.addEventListener(
+
+"input",
+
+update
+
+);
+
+update();
+</script>
+</body>
+</html>
+ 
+
+
+
+
+
