@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基数変換 学習アプリ</title>
+<style>
+/* =========================
+  全体
+========================= */
+body{
+   margin:0;
+   min-height:100vh;
+   display:flex;
+   justify-content:center;
+   align-items:flex-start;
+   padding:20px;
+   font-family:sans-serif;
+   background:linear-gradient(
+       135deg,
+       #eef7ff,
+       #fdf6ff,
+       #fffde9
+   );
+   -webkit-text-size-adjust:100%;
+}
+/* =========================
+  アプリ本体
+========================= */
+.app{
+   width:100%;
+   max-width:1300px;
+   margin:auto;
+   background:white;
+   border-radius:35px;
+   padding:35px;
+   box-sizing:border-box;
+   box-shadow:
+   0 12px 35px rgba(0,0,0,0.08);
+}
+/* =========================
+  セクション
+========================= */
+.section{
+   width:100%;
+   max-width:1100px;
+   margin:40px auto;
+   padding:30px;
+   border-radius:30px;
+   box-sizing:border-box;
+   box-shadow:
+   0 6px 18px rgba(0,0,0,0.05);
+}
+.section1{
+   background:#eef6ff;
+}
+.section2{
+   background:#f4fff4;
+}
+.section3{
+   background:#fff8ef;
+}
+.section4{
+   background:#fffdf4;
+}
+/* =========================
+  タイトル
+========================= */
+h1{
+   text-align:center;
+   font-size:48px;
+   color:#555;
+   margin-bottom:50px;
+}
+h2{
+   text-align:center;
+   font-size:40px;
+   color:#666;
+   margin-top:0;
+   margin-bottom:30px;
+}
+/* =========================
+  黒板風説明
+========================= */
+.steps{
+   max-width:950px;
+   margin:25px auto 30px auto;
+   background:
+   linear-gradient(
+       180deg,
+       #355c3b,
+       #29492f
+   );
+   color:white;
+   border-radius:20px;
+   padding:30px;
+   font-size:28px;
+   line-height:2.1;
+   border:8px solid #8b5a2b;
+   box-sizing:border-box;
+   overflow:auto;
+}
+/* =========================
+  ラベル
+========================= */
+label{
+   display:block;
+   font-size:30px;
+   font-weight:bold;
+   margin-top:25px;
+   margin-bottom:15px;
+   text-align:center;
+   color:#555;
+}
+/* =========================
+  入力欄
+========================= */
+input{
+   display:block;
+   width:100%;
+   max-width:700px;
+   margin:0 auto;
+   padding:22px;
+   font-size:32px;
+   border-radius:18px;
+   border:3px solid #ccc;
+   box-sizing:border-box;
+   text-align:center;
+   background:white;
+   color:black;
+   appearance:none;
+   -webkit-appearance:none;
+   -webkit-user-select:text;
+   user-select:text;
+}
+/* =========================
+  ボタン
+========================= */
+button{
+   display:block;
+   width:100%;
+   max-width:700px;
+   margin:20px auto 0 auto;
+   padding:22px;
+   border:none;
+   border-radius:20px;
+   background:#9fc2ff;
+   color:white;
+   cursor:pointer;
+   font-size:28px;
+   font-weight:bold;
+   box-sizing:border-box;
+}
+button:active{
+   transform:scale(0.98);
+}
+/* =========================
+  結果欄
+========================= */
+.result{
+   max-width:850px;
+   margin:35px auto 0 auto;
+   background:white;
+   border-radius:22px;
+   padding:30px;
+   font-size:32px;
+   line-height:2;
+   text-align:center;
+   border:3px solid #eee;
+   box-sizing:border-box;
+}
+/* =========================
+  クイズ
+========================= */
+.quiz{
+   max-width:900px;
+   margin:0 auto;
+}
+/* =========================
+  正誤
+========================= */
+.answer{
+   margin-top:25px;
+   font-size:32px;
+   text-align:center;
+}
+.correct{
+   color:#00a86b;
+}
+.wrong{
+   color:#ff5c7a;
+}
+/* =========================
+  テーブル
+========================= */
+table{
+   margin:auto;
+}
+/* =========================
+  スマホ対応
+========================= */
+@media(max-width:768px){
+   body{
+       padding:10px;
+   }
+   .app{
+       padding:18px;
+       border-radius:20px;
+   }
+   .section{
+       padding:18px;
+       border-radius:20px;
+   }
+   h1{
+       font-size:32px;
+       margin-bottom:30px;
+   }
+   h2{
+       font-size:26px;
+   }
+   .steps{
+       font-size:18px;
+       padding:18px;
+       line-height:1.9;
+   }
+   label{
+       font-size:22px;
+   }
+   input{
+       font-size:20px;
+       padding:18px;
+   }
+   button{
+       font-size:20px;
+       padding:18px;
+   }
+   .result{
+       font-size:22px;
+       padding:20px;
+   }
+   .answer{
+       font-size:24px;
+   }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>基数変換 学習アプリ</h1>
+<!-- =========================
+① 2進数 → 10進数
+========================= -->
+<div class="section section1">
+<h2>① 2進数 → 10進数</h2>
+<div class="steps">
+<strong>考え方</strong>
+<br><br>
+各桁には「重み」がある。
+<br><br>
+右から順に
+1 , 2 , 4 , 8 , 16 ...
+<br><br>
+例：
+<br><br>
+1011₂
+<br><br>
+1×8 + 0×4 + 1×2 + 1×1
+<br><br>
+= 11
+</div>
+<label>2進数を入力（8ビットまで）</label>
+<input
+type="text"
+inputmode="numeric"
+maxlength="8"
+autocomplete="off"
+autocorrect="off"
+autocapitalize="off"
+spellcheck="false"
+id="binaryInput"
+placeholder="例：10110101">
+<button onclick="convertBinaryToDecimal()">
+10進数へ変換
+</button>
+<div class="steps" id="binarySteps">
+</div>
+</div>
+<!-- =========================
+② 10進数 → 2進数
+========================= -->
+<div class="section section2">
+<h2>② 10進数 → 2進数</h2>
+<div class="steps">
+<strong>考え方</strong>
+<br><br>
+2で割り続けて、
+「あまり」を下から読む。
+<br><br>
+例：
+<br>
+13 ÷ 2 = 6 あまり1
+<br>
+6 ÷ 2 = 3 あまり0
+<br>
+3 ÷ 2 = 1 あまり1
+<br>
+1 ÷ 2 = 0 あまり1
+<br><br>
+下から読む →
+1101₂
+</div>
+<label>10進数を入力</label>
+<input
+type="number"
+inputmode="numeric"
+autocomplete="off"
+id="decimalInput"
+placeholder="例：45">
+<button onclick="convertDecimalToBinary()">
+2進数へ変換
+</button>
+<div class="steps" id="decimalSteps">
+</div>
+</div>
+<!-- =========================
+③ 2進数 → 16進数
+========================= -->
+<div class="section section3">
+<h2>③ 2進数 → 16進数</h2>
+<div class="steps">
+<strong>考え方</strong>
+<br><br>
+2進数を4桁ずつ区切る。
+<br><br>
+11111111₂
+<br><br>
+1111 ｜ 1111
+<br><br>
+1111₂ = F
+<br>
+1111₂ = F
+<br><br>
+→ FF₁₆
+</div>
+<label>2進数を入力</label>
+<input
+type="text"
+inputmode="numeric"
+autocomplete="off"
+autocorrect="off"
+autocapitalize="off"
+spellcheck="false"
+id="hexBinaryInput"
+placeholder="例：11111111">
+<button onclick="convertBinaryToHex()">
+16進数へ変換
+</button>
+<div class="steps" id="hexSteps">
+</div>
+</div>
+<!-- =======================
+④ クイズ
+========================= -->
+
+<div class="section section4">
+
+<h2>④ 10題チャレンジ</h2>
+
+<div class="quiz">
+
+<div class="result" id="quizQuestion">
+
+問題が表示されます
+
+</div>
+
+<input
+type="text"
+autocomplete="off"
+autocorrect="off"
+autocapitalize="off"
+spellcheck="false"
+id="quizAnswer"
+placeholder="答えを入力">
+
+<button onclick="checkQuiz()">
+
+答え合わせ
+
+</button>
+
+<button onclick="restartQuiz()">
+
+もう一度チャレンジ
+
+</button>
+
+<button onclick="finishQuiz()">
+
+終了
+
+</button>
+
+<div class="answer" id="quizResult">
+
+</div>
+
+<div class="result" id="quizScore">
+
+1 / 10
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* ======================
+① 2進数 → 10進数
+====================== */
+
+function convertBinaryToDecimal(){
+
+   const binary =
+   document
+   .getElementById("binaryInput")
+   .value;
+
+   if(binary === "") return;
+
+   if(!/^[01]+$/.test(binary)){
+
+       alert("0 と 1 のみ入力してください");
+
+       return;
+
+   }
+
+   if(binary.length > 8){
+
+       alert("8ビットまで入力できます");
+
+       return;
+
+   }
+
+   let total = 0;
+
+   let table = `
+<table
+   style="
+   width:100%;
+   border-collapse:separate;
+   border-spacing:12px;
+   text-align:center;
+   color:white;
+   font-size:28px;
+   ">
+   `;
+
+   table += "<tr><td><strong>桁</strong></td>";
+
+   for(let i=0;i<binary.length;i++){
+
+       table += `
+<td
+       style="
+       background:rgba(255,255,255,0.12);
+       padding:10px;
+       border-radius:10px;
+       ">
+       ${binary[i]}
+</td>
+       `;
+
+   }
+
+   table += "</tr>";
+
+   table += "<tr><td><strong>重み</strong></td>";
+
+   for(let i=0;i<binary.length;i++){
+
+       const weight =
+       Math.pow(
+           2,
+           binary.length-1-i
+       );
+
+       table += `
+<td
+       style="
+       background:rgba(255,255,255,0.12);
+       padding:10px;
+       border-radius:10px;
+       ">
+       ${weight}
+</td>
+       `;
+
+       total +=
+       Number(binary[i]) * weight;
+
+   }
+
+   table += "</tr>";
+
+   table += "</table>";
+
+   let formula = "";
+
+   for(let i=0;i<binary.length;i++){
+
+       const weight =
+       Math.pow(
+           2,
+           binary.length-1-i
+       );
+
+       formula += `
+       (${binary[i]}×${weight})
+       `;
+
+       if(i !== binary.length-1){
+
+           formula += " ＋ ";
+
+       }
+
+   }
+
+   formula += `
+<br><br>
+
+   = ${total}
+   `;
+
+   document
+   .getElementById("binarySteps")
+   .innerHTML =
+   table +
+   "<br><br>" +
+   formula;
+
+}
+
+/* ======================
+② 10進数 → 2進数
+====================== */
+
+function convertDecimalToBinary(){
+
+   let number =
+   Number(
+       document
+       .getElementById("decimalInput")
+       .value
+   );
+
+   if(isNaN(number)) return;
+
+   let binary = "";
+
+   let steps = "";
+
+   while(number > 0){
+
+       const remain =
+       number % 2;
+
+       steps += `
+       ${number} ÷ 2 =
+       ${Math.floor(number/2)}
+       あまり ${remain}
+<br>
+       `;
+
+       binary =
+       remain + binary;
+
+       number =
+       Math.floor(number/2);
+
+   }
+
+   steps += `
+<br>
+
+   下から読む →
+
+   ${binary}
+   `;
+
+   document
+   .getElementById("decimalSteps")
+   .innerHTML =
+   steps;
+
+}
+
+/* ======================
+③ 2進数 → 16進数
+====================== */
+
+function convertBinaryToHex(){
+
+   let binary =
+   document
+   .getElementById("hexBinaryInput")
+   .value;
+
+   if(binary === "") return;
+
+   while(binary.length % 4 !== 0){
+
+       binary = "0" + binary;
+
+   }
+
+   let steps = "";
+
+   let hex = "";
+
+   for(let i=0;i<binary.length;i+=4){
+
+       const chunk =
+       binary.substr(i,4);
+
+       const hexDigit =
+       parseInt(chunk,2)
+       .toString(16)
+       .toUpperCase();
+
+       steps += `
+       ${chunk}
+       → ${hexDigit}
+<br>
+       `;
+
+       hex += hexDigit;
+
+   }
+
+   steps += `
+<br>
+
+   16進数：
+
+   ${hex}
+   `;
+
+   document
+   .getElementById("hexSteps")
+   .innerHTML =
+   steps;
+
+}
+
+/* ======================
+クイズ
+====================== */
+
+let currentAnswer = "";
+
+let questionCount = 0;
+
+let correctCount = 0;
+
+let quizFinished = false;
+
+function generateQuiz(){
+
+   if(quizFinished){
+
+       return;
+
+   }
+
+   if(questionCount >= 10){
+
+       finishQuiz();
+
+       return;
+
+   }
+
+   const type =
+   Math.floor(Math.random()*3);
+
+   if(type === 0){
+
+       const num =
+       Math.floor(Math.random()*64);
+
+       currentAnswer =
+       num.toString(2);
+
+       document
+       .getElementById("quizQuestion")
+       .innerHTML =
+       `問題 ${questionCount+1}
+
+<br><br>
+
+       ${num} を2進数へ変換`;
+
+   }
+
+   else if(type === 1){
+
+       const num =
+       Math.floor(Math.random()*64);
+
+       currentAnswer =
+       num.toString(10);
+
+       document
+       .getElementById("quizQuestion")
+       .innerHTML =
+       `問題 ${questionCount+1}
+
+<br><br>
+
+       ${num.toString(2)} を10進数へ変換`;
+
+   }
+
+   else{
+
+       const num =
+       Math.floor(Math.random()*255);
+
+       currentAnswer =
+       num.toString(16).toUpperCase();
+
+       document
+       .getElementById("quizQuestion")
+       .innerHTML =
+       `問題 ${questionCount+1}
+
+<br><br>
+
+       ${num.toString(2)} を16進数へ変換`;
+
+   }
+
+   document
+   .getElementById("quizAnswer")
+   .value = "";
+
+   document
+   .getElementById("quizResult")
+   .innerHTML = "";
+
+   document
+   .getElementById("quizScore")
+   .innerHTML =
+   `${questionCount+1} / 10`;
+
+}
+
+function checkQuiz(){
+
+   if(quizFinished){
+
+       return;
+
+   }
+
+   const userAnswer =
+   document
+   .getElementById("quizAnswer")
+   .value
+   .trim()
+   .toUpperCase();
+
+   if(userAnswer === currentAnswer){
+
+       correctCount++;
+
+       document
+       .getElementById("quizResult")
+       .innerHTML =
+       `<span class="correct">
+       正解！
+</span>`;
+
+   }
+
+   else{
+
+       document
+       .getElementById("quizResult")
+       .innerHTML =
+       `<span class="wrong">
+       不正解…
+
+<br>
+
+       正解：
+       ${currentAnswer}
+</span>`;
+
+   }
+
+   questionCount++;
+
+   setTimeout(()=>{
+
+       generateQuiz();
+
+   },1200);
+
+}
+
+function finishQuiz(){
+
+   quizFinished = true;
+
+   const rate =
+   Math.round(
+       (correctCount / Math.max(questionCount,1)) * 100
+   );
+
+   document
+   .getElementById("quizQuestion")
+   .innerHTML = `
+   クイズ終了！
+
+<br><br>
+
+   正解数：
+   ${correctCount} / ${questionCount}
+
+<br><br>
+
+   正答率：
+   ${rate}%
+   `;
+
+   document
+   .getElementById("quizResult")
+   .innerHTML = "";
+
+   document
+   .getElementById("quizScore")
+   .innerHTML =
+   "終了しました";
+
+}
+
+function restartQuiz(){
+
+   currentAnswer = "";
+
+   questionCount = 0;
+
+   correctCount = 0;
+
+   quizFinished = false;
+
+   generateQuiz();
+
+}
+
+generateQuiz();
+
+</script>
+
+</body>
+</html>
