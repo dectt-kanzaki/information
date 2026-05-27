@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+
+ランレングス圧縮 学習アプリ
+</title>
+<style>
+
+*{
+
+   box-sizing:border-box;
+
+}
+
+body{
+
+   margin:0;
+
+   padding:30px;
+
+   font-family:sans-serif;
+
+   background:
+
+   linear-gradient(
+
+       135deg,
+
+       #eef7ff,
+
+       #fdf6ff,
+
+       #fffde9
+
+   );
+
+   display:flex;
+
+   justify-content:center;
+
+   color:#444;
+
+}
+
+.container{
+
+   width:100%;
+
+   max-width:1200px;
+
+}
+
+.app{
+
+   background:white;
+
+   border-radius:30px;
+
+   padding:40px;
+
+   box-shadow:
+
+   0 10px 30px rgba(0,0,0,0.08);
+
+}
+
+h1{
+
+   text-align:center;
+
+   font-size:42px;
+
+   color:#555;
+
+   margin-bottom:40px;
+
+}
+
+.step{
+
+   margin-top:40px;
+
+   padding:30px;
+
+   border-radius:25px;
+
+   background:#fafcff;
+
+   border:2px solid #e3ecff;
+
+}
+
+.step h2{
+
+   text-align:center;
+
+   font-size:32px;
+
+   color:#4f7cff;
+
+   margin-top:0;
+
+}
+
+/* セレクト */
+
+.select-area{
+
+   text-align:center;
+
+   margin-top:20px;
+
+}
+
+select{
+
+   font-size:24px;
+
+   padding:15px 20px;
+
+   border-radius:15px;
+
+   border:2px solid #ccc;
+
+}
+
+/* 国旗表示 */
+
+.flag-wrapper{
+
+   display:flex;
+
+   justify-content:center;
+
+   margin-top:30px;
+
+   overflow-x:auto;
+
+}
+
+#flagArea{
+
+   display:inline-block;
+
+}
+
+.row{
+
+   display:flex;
+
+}
+
+.cell{
+
+   width:55px;
+
+   height:55px;
+
+   border:1px solid #ccc;
+
+}
+
+/* ボタン */
+
+.button-area{
+
+   text-align:center;
+
+   margin-top:30px;
+
+}
+
+button{
+
+   border:none;
+
+   background:#6fa8ff;
+
+   color:white;
+
+   font-size:24px;
+
+   padding:18px 35px;
+
+   border-radius:16px;
+
+   cursor:pointer;
+
+   transition:0.2s;
+
+}
+
+button:hover{
+
+   background:#4f8cff;
+
+}
+
+/* 出力 */
+
+.output{
+
+   margin-top:30px;
+
+   background:white;
+
+   border:2px solid #dce7ff;
+
+   border-radius:18px;
+
+   padding:25px;
+
+   font-size:24px;
+
+   line-height:2;
+
+   text-align:center;
+
+   overflow:auto;
+
+   font-family:monospace;
+
+}
+
+/* まとめ */
+
+.summary{
+
+   margin-top:20px;
+
+   background:#243746;
+
+   color:white;
+
+   border-radius:20px;
+
+   padding:35px;
+
+   font-size:24px;
+
+   line-height:2.2;
+
+}
+
+/* スマホ */
+
+@media(max-width:900px){
+
+   body{
+
+       padding:15px;
+
+   }
+
+   .app{
+
+       padding:20px;
+
+   }
+
+   h1{
+
+       font-size:30px;
+
+   }
+
+   .step h2{
+
+       font-size:24px;
+
+   }
+
+   .cell{
+
+       width:32px;
+
+       height:32px;
+
+   }
+
+   button{
+
+       width:100%;
+
+   }
+
+   .output,
+
+   .summary{
+
+       font-size:18px;
+
+   }
+
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="app">
+<h1>
+
+ランレングス圧縮<br>
+
+学習アプリ
+</h1>
+<!-- STEP1 -->
+<div class="step">
+<h2>
+
+① 国旗を選択
+</h2>
+<div class="select-area">
+<select id="flagSelect">
+<option value="france">
+
+フランス風（縦縞）
+</option>
+<option value="italy">
+
+イタリア風（縦縞）
+</option>
+<option value="germany">
+
+ドイツ風（横縞）
+</option>
+<option value="netherlands">
+
+オランダ風（横縞）
+</option>
+</select>
+</div>
+</div>
+<!-- STEP2 -->
+<div class="step">
+<h2>
+
+② 6×9マスで画像表示
+</h2>
+<div class="flag-wrapper">
+<div id="flagArea"></div>
+</div>
+</div>
+<!-- STEP3 -->
+<div class="step">
+<h2>
+
+③ 画像をデータ化
+</h2>
+<div class="button-area">
+<button onclick="showData()">
+
+データ化する
+</button>
+</div>
+<div
+
+class="output"
+
+id="dataOutput">
+
+ここに画像データが表示されます
+</div>
+</div>
+<!-- STEP4 -->
+<div class="step">
+<h2>
+
+④ ランレングス圧縮
+</h2>
+<div class="button-area">
+<button onclick="compressData()">
+
+圧縮する
+</button>
+</div>
+<div
+
+class="output"
+
+id="compressOutput">
+
+ここに圧縮結果が表示されます
+</div>
+</div>
+<!-- STEP5 -->
+<div class="step">
+<h2>
+
+⑤ まとめ
+</h2>
+<div class="summary">
+
+● ランレングス圧縮は<br>
+
+同じデータが続くほど有利<br><br>
+
+● 横方向に読み取ると<br>
+
+横縞は同じ色が長く続く<br><br>
+
+● 縦縞は色が頻繁に変化するため<br>
+
+圧縮効率が低くなる<br><br>
+
+● つまり<br><br>
+
+横縞 → 圧縮効率が高い<br>
+
+縦縞 → 圧縮効率が低い
+</div>
+</div>
+</div>
+</div>
+<script>
+
+/* 要素取得 */
+
+const flagArea =
+
+document.getElementById("flagArea");
+
+const flagSelect =
+
+document.getElementById("flagSelect");
+
+/* =========================
+
+  4パターンのテーブル定義
+
+========================= */
+
+const tablePatterns = {
+
+france:[
+
+["blue","blue","blue","white","white","white","red","red","red"],
+
+["blue","blue","blue","white","white","white","red","red","red"],
+
+["blue","blue","blue","white","white","white","red","red","red"],
+
+["blue","blue","blue","white","white","white","red","red","red"],
+
+["blue","blue","blue","white","white","white","red","red","red"],
+
+["blue","blue","blue","white","white","white","red","red","red"]
+
+],
+
+italy:[
+
+["green","green","green","white","white","white","red","red","red"],
+
+["green","green","green","white","white","white","red","red","red"],
+
+["green","green","green","white","white","white","red","red","red"],
+
+["green","green","green","white","white","white","red","red","red"],
+
+["green","green","green","white","white","white","red","red","red"],
+
+["green","green","green","white","white","white","red","red","red"]
+
+],
+
+germany:[
+
+["black","black","black","black","black","black","black","black","black"],
+
+["black","black","black","black","black","black","black","black","black"],
+
+["red","red","red","red","red","red","red","red","red"],
+
+["red","red","red","red","red","red","red","red","red"],
+
+["yellow","yellow","yellow","yellow","yellow","yellow","yellow","yellow","yellow"],
+
+["yellow","yellow","yellow","yellow","yellow","yellow","yellow","yellow","yellow"]
+
+],
+
+netherlands:[
+
+["red","red","red","red","red","red","red","red","red"],
+
+["red","red","red","red","red","red","red","red","red"],
+
+["white","white","white","white","white","white","white","white","white"],
+
+["white","white","white","white","white","white","white","white","white"],
+
+["blue","blue","blue","blue","blue","blue","blue","blue","blue"],
+
+["blue","blue","blue","blue","blue","blue","blue","blue","blue"]
+
+]
+
+};
+
+/* =========================
+
+  選択されたテーブル取得
+
+========================= */
+
+function getSelectedTable(){
+
+   const selected =
+
+   flagSelect.value;
+
+   return tablePatterns[selected];
+
+}
+
+/* 色変換 */
+
+function getColor(color){
+
+   const colors = {
+
+       red:"#ff6b6b",
+
+       blue:"#5b8dff",
+
+       white:"#ffffff",
+
+       green:"#67d98a",
+
+       black:"#333333",
+
+       yellow:"#ffd93d"
+
+   };
+
+   return colors[color];
+
+}
+
+/* =========================
+
+  国旗描画
+
+========================= */
+
+function drawFlag(){
+
+   flagArea.innerHTML = "";
+
+   const tableData =
+
+   getSelectedTable();
+
+   tableData.forEach(rowData=>{
+
+       const row =
+
+       document.createElement("div");
+
+       row.className = "row";
+
+       rowData.forEach(color=>{
+
+           const cell =
+
+           document.createElement("div");
+
+           cell.className = "cell";
+
+           cell.style.backgroundColor =
+
+           getColor(color);
+
+           row.appendChild(cell);
+
+       });
+
+       flagArea.appendChild(row);
+
+   });
+
+}
+
+/* =========================
+
+  データ化
+
+========================= */
+
+function showData(){
+
+   const tableData =
+
+   getSelectedTable();
+
+   let text = "";
+
+   tableData.forEach(row=>{
+
+       row.forEach(color=>{
+
+           text +=
+
+           "<span style='display:inline-block;width:28px;'>"
+
+           +
+
+           color.charAt(0).toUpperCase()
+
+           +
+
+           "</span>";
+
+       });
+
+       text += "<br>";
+
+   });
+
+   document.getElementById(
+
+   "dataOutput"
+
+   ).innerHTML = text;
+
+}
+
+/* =========================
+
+  ランレングス圧縮
+
+========================= */
+
+function compressData(){
+
+   const tableData =
+
+   getSelectedTable();
+
+   let result = "";
+
+   tableData.forEach(row=>{
+
+       let count = 1;
+
+       for(let i=1;i<=row.length;i++){
+
+           if(row[i]===row[i-1]){
+
+               count++;
+
+           }else{
+
+               result +=
+
+               count +
+
+               row[i-1]
+
+               .charAt(0)
+
+               .toUpperCase()
+
+               + " ";
+
+               count = 1;
+
+           }
+
+       }
+
+       result += "<br>";
+
+   });
+
+   document.getElementById(
+
+   "compressOutput"
+
+   ).innerHTML = result;
+
+}
+
+/* 初回表示 */
+
+drawFlag();
+
+/* 国旗変更時 */
+
+flagSelect.addEventListener(
+
+"change",
+
+drawFlag
+
+);
+</script>
+</body>
+</html>
+ 
+
+
+

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動画容量シミュレーター</title>
+<style>
+
+body{
+
+    font-family:sans-serif;
+
+    background:#f4f6f8;
+
+    padding:20px;
+
+}
+
+.container{
+
+    max-width:850px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+}
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.input-group{
+
+    margin-bottom:20px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+}
+
+input, select{
+
+    width:100%;
+
+    padding:12px;
+
+    font-size:18px;
+
+    border-radius:8px;
+
+    border:1px solid #ccc;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    font-size:20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4f8cff;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+button:hover{
+
+    opacity:0.9;
+
+}
+
+.result{
+
+    margin-top:30px;
+
+    background:#eef3ff;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    font-size:20px;
+
+    line-height:2;
+
+}
+
+.bar-bg{
+
+    width:100%;
+
+    height:40px;
+
+    background:#ddd;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:20px;
+
+}
+
+.bar{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(90deg,#4f8cff,#00c896);
+
+    transition:width 1s ease;
+
+}
+
+.animation-area{
+
+    margin-top:40px;
+
+    height:120px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:#f0f0f0;
+
+    border-radius:10px;
+
+}
+
+.frame{
+
+    width:40px;
+
+    height:40px;
+
+    background:#4f8cff;
+
+    border-radius:8px;
+
+    position:absolute;
+
+    top:40px;
+
+    left:-50px;
+
+    animation:moveFrame 5s linear infinite;
+
+}
+
+@keyframes moveFrame{
+
+    from{
+
+        left:-50px;
+
+    }
+
+    to{
+
+        left:100%;
+
+    }
+
+}
+
+.formula{
+
+    margin-top:20px;
+
+    background:#fff8e6;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>動画容量シミュレーター</h1>
+<div class="input-group">
+<label>横画素数</label>
+<input type="number" id="width" value="1920">
+</div>
+<div class="input-group">
+<label>縦画素数</label>
+<input type="number" id="height" value="1080">
+</div>
+<div class="input-group">
+<label>色深度（bit）</label>
+<select id="bit">
+<option value="8">8bit</option>
+<option value="24" selected>24bit</option>
+<option value="32">32bit</option>
+</select>
+</div>
+<div class="input-group">
+<label>フレームレート（fps）</label>
+<input type="number" id="fps" value="30">
+</div>
+<div class="input-group">
+<label>動画時間（秒）</label>
+<input type="number" id="time" value="10">
+</div>
+<button onclick="calculate()">動画容量を計算</button>
+<div class="formula">
+
+画像1枚の容量：
+<br>
+
+\text{1フレーム容量} = \text{横} \times \text{縦} \times \text{色深度}
+<br><br>
+
+動画容量：
+<br>
+
+\text{動画容量} = \text{1フレーム容量} \times \text{fps} \times \text{時間}
+</div>
+<div id="result" class="result">
+
+ここに結果が表示されます
+</div>
+<div class="bar-bg">
+<div id="bar" class="bar"></div>
+</div>
+<div class="animation-area">
+<div class="frame"></div>
+</div>
+</div>
+<script>
+
+function calculate(){
+
+    const width = Number(document.getElementById("width").value);
+
+    const height = Number(document.getElementById("height").value);
+
+    const bit = Number(document.getElementById("bit").value);
+
+    const fps = Number(document.getElementById("fps").value);
+
+    const time = Number(document.getElementById("time").value);
+
+    // 1フレーム容量(bit)
+
+    const frameBits = width * height * bit;
+
+    // 動画全体(bit)
+
+    const totalBits = frameBits * fps * time;
+
+    // Byte換算
+
+    const totalBytes = totalBits / 8;
+
+    // MB換算
+
+    const MB = totalBytes / 1024 / 1024;
+
+    // GB換算
+
+    const GB = MB / 1024;
+
+    document.getElementById("result").innerHTML = `
+<strong>計算結果</strong><br><br>
+
+    1フレーム容量：
+
+    ${(frameBits / 8 / 1024 / 1024).toFixed(2)} MB<br>
+
+    総フレーム数：
+
+    ${(fps * time).toLocaleString()} 枚<br>
+
+    動画容量：
+
+    ${MB.toFixed(2)} MB<br>
+
+    約：
+
+    ${GB.toFixed(2)} GB
+
+    `;
+
+    // 容量バー
+
+    let percentage = MB / 500 * 100;
+
+    if(percentage > 100){
+
+        percentage = 100;
+
+    }
+
+    document.getElementById("bar").style.width = percentage + "%";
+
+    // フレーム速度変更
+
+    const duration = Math.max(0.5, 5 / (fps / 10));
+
+    document.querySelector(".frame").style.animationDuration = duration + "s";
+
+}
+</script>
+</body>
+</html>
+ 
