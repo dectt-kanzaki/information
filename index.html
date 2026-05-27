@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情報Ⅰ 学習アプリ</title>
+<style>
+
+    body {
+
+      margin: 0;
+
+      font-family: "Yu Gothic", sans-serif;
+
+      background: linear-gradient(to bottom right, #dbeafe, #c7d2fe);
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      height: 100vh;
+
+    }
+
+    .container {
+
+      background-color: white;
+
+      padding: 50px;
+
+      border-radius: 25px;
+
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+      text-align: center;
+
+      width: 90%;
+
+      max-width: 900px;
+
+    }
+
+    h1 {
+
+      font-size: 42px;
+
+      color: #333;
+
+      margin-bottom: 10px;
+
+    }
+
+    p {
+
+      color: #666;
+
+      margin-bottom: 40px;
+
+      font-size: 18px;
+
+    }
+
+    .button-grid {
+
+      display: grid;
+
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 25px;
+
+    }
+
+    .menu-button {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      text-align: center;
+
+      padding: 20px;
+
+      height: 140px;
+
+      border-radius: 20px;
+
+      color: white;
+
+      font-size: 26px;
+
+      font-weight: bold;
+
+      text-decoration: none;
+
+      transition: 0.3s;
+
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+
+      line-height: 1.4;
+
+    }
+
+    .menu-button:hover {
+
+      transform: scale(1.05);
+
+      opacity: 0.9;
+
+    }
+
+    .base {
+
+      background-color: #3b82f6;
+
+    }
+
+    .image {
+
+      background-color: #22c55e;
+
+    }
+
+    .sound {
+
+      background-color: #a855f7;
+
+    }
+
+    .movie {
+
+      background-color: #f97316;
+
+    }
+
+    @media (max-width: 700px) {
+
+      .button-grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .menu-button {
+
+        height: 110px;
+
+        font-size: 22px;
+
+      }
+
+      h1 {
+
+        font-size: 32px;
+
+      }
+
+    }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>情報Ⅰ 学習アプリ</h1>
+<p>学習したい内容を選んでください</p>
+<div class="button-grid">
+<a href="https://dectt-kanzaki.github.io/information/conversion.html" class="menu-button base">
+
+        基数変換
+</a>
+<a href="https://dectt-kanzaki.github.io/information/image.html" class="menu-button image">
+
+        解像度と<br>画像容量
+</a>
+<a href="https://dectt-kanzaki.github.io/information/audio.html" class="menu-button sound">
+
+        音声のデジタル化
+</a>
+<a href="https://dectt-kanzaki.github.io/information/movie.html" class="menu-button movie">
+
+        動画再生の基本
+</a>
+</div>
+</div>
+</body>
+</html>
+ 
