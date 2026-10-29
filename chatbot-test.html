@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中通島　観光コンシェルジュ　～この島の魅力を、あなたへ～</title>
+<style>
+:root{--blue:#0879d9;--blue2:#eaf5ff;--ink:#18334d;--muted:#60758a;--line:#d7e7f5;--bg:#f4f9fd;--green:#20a46b;--orange:#f2a21b;--red:#df5353}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-weight:700;transition:.15s}button:hover{filter:brightness(.97);transform:translateY(-1px)}
+.primary{background:var(--blue);color:#fff}.secondary{background:#e8f3fd;color:#075fae}.danger{background:#fff0f0;color:#b83232}.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+header{background:linear-gradient(115deg,#0879d9,#27b9d4);color:white;padding:15px max(18px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;gap:11px;align-items:center}.logo{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--blue);font-size:25px}.brand h1{font-size:20px;margin:0}.brand p{font-size:12px;margin:2px 0 0;opacity:.92}
+nav{display:flex;gap:7px;flex-wrap:wrap}nav button{background:#ffffff20;color:white;border:1px solid #ffffff50;padding:9px 12px}nav button.active{background:#fff;color:#0873c7}
+main{max-width:1180px;margin:22px auto;padding:0 16px 40px}.page{display:none}.page.active{display:block}.hero{border-radius:20px;overflow:hidden;background:linear-gradient(90deg,#063b67b8,#0b5c8b50),url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1800&q=85') center/cover;color:white;padding:44px 30px;min-height:245px;display:flex;flex-direction:column;justify-content:center}.hero h2{font-size:clamp(27px,4vw,42px);line-height:1.2;margin:0 0 12px}.hero p{max-width:620px;margin:0;font-size:16px}.hero .tag{display:inline-block;background:#ffffff25;border:1px solid #ffffff80;border-radius:99px;padding:5px 11px;font-size:12px;margin-bottom:13px;width:max-content}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}.menu-card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 5px 20px #18334d08}.menu-card .icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:25px;margin-bottom:12px;background:var(--blue2)}.menu-card:nth-child(2) .icon{background:#e8f8ef}.menu-card:nth-child(3) .icon{background:#fff4dc}.menu-card h3{margin:0 0 6px}.menu-card p{color:var(--muted);font-size:14px;min-height:42px}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 18px}.section-head h2{margin:0;font-size:26px}.section-head p{margin:4px 0 0;color:var(--muted)}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 5px 20px #18334d06}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-weight:700;font-size:14px}label .req{color:#d94444}.help{font-size:12px;color:var(--muted);font-weight:400}input,select,textarea{width:100%;border:1px solid #cbddeb;border-radius:9px;padding:11px 12px;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #0879d91a}textarea{resize:vertical;min-height:92px}.checkrow{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);border-radius:99px;padding:7px 12px;background:white;color:var(--ink);font-size:13px}.chip.selected{background:var(--blue2);border-color:var(--blue);color:#075fae}.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.notice{padding:11px 14px;background:#fff8e7;border:1px solid #ffe3a3;border-radius:10px;color:#76541b;font-size:13px;margin-bottom:16px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:17px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:130px}.stat strong{font-size:23px;display:block;color:var(--blue)}.stat span{font-size:12px;color:var(--muted)}
+.list-tools{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.list-tools input{max-width:340px}.spot-list{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.spot-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:13px;min-width:0}.spot-emoji{width:58px;height:58px;flex-shrink:0;border-radius:12px;background:linear-gradient(135deg,#d7f1ff,#e6f9ef);display:grid;place-items:center;font-size:28px}.spot-card h3{margin:0 0 5px;font-size:17px}.spot-card p{margin:5px 0;color:var(--muted);font-size:13px;overflow-wrap:anywhere}.badge{display:inline-block;border-radius:99px;background:#e8f3fd;color:#0765b4;padding:3px 9px;font-size:11px;font-weight:700;margin:0 4px 4px 0}.card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.card-actions button{padding:6px 9px;font-size:12px}
+.chat-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:16px}.chatbox{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:570px}.chat-head{background:#f0f8ff;padding:14px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}.bot-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#d6efff;font-size:21px}.chat-head strong{display:block}.chat-head small{color:var(--muted)}.messages{padding:18px;flex:1;overflow:auto;max-height:460px;min-height:320px;background:#fbfdff}.msg{display:flex;margin:0 0 13px;gap:8px;align-items:flex-start}.msg.user{justify-content:flex-end}.bubble{max-width:86%;padding:11px 13px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}.msg.user .bubble{background:var(--blue);color:white;border-color:var(--blue);border-bottom-right-radius:4px}.msg.bot .bubble{border-bottom-left-radius:4px}.bubble p{margin:0 0 7px}.bubble p:last-child{margin-bottom:0}.chat-input{display:flex;gap:8px;padding:13px;border-top:1px solid var(--line)}.chat-input input{flex:1;min-width:0}.quick-prompts{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}.quick-prompts button{font-size:12px;padding:7px 10px;background:#fff;border:1px solid var(--line);color:#1766a8}.side-panel h3{margin:0 0 9px}.side-panel p{font-size:13px;color:var(--muted)}.side-panel .tip{background:#f1f9ff;border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px}.guide-hero{border-radius:16px;overflow:hidden;background:linear-gradient(90deg,#063b67c9,#0b5c8b4a),url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85') center/cover;color:white;padding:42px 25px;margin-bottom:18px}.guide-hero h2{font-size:clamp(26px,4vw,38px);margin:0 0 8px}.guide-hero p{margin:0}.empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #b8d1e5;border-radius:14px}.empty strong{display:block;color:var(--ink);font-size:17px;margin-bottom:5px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#18334d;color:#fff;padding:11px 18px;border-radius:99px;box-shadow:0 8px 30px #0002;z-index:10;display:none}.small-note{font-size:12px;color:var(--muted);margin-top:12px}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 25px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:800px){.menu-grid{grid-template-columns:1fr}.chat-layout{grid-template-columns:1fr}.side-panel{order:2}.spot-list{grid-template-columns:1fr}.hero{padding:30px 20px;min-height:220px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.chatbox{min-height:520px}.chat-input{padding:10px}.section-head h2{font-size:22px}header{padding:13px 14px}nav{width:100%}nav button{flex:1;font-size:12px;padding:9px 5px}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">🌴</div><div><h1>中通島　観光コンシェルジュ</h1><p>この島の魅力を、あなたへ。</p></div></div>
+  <nav aria-label="メインメニュー">
+    <button class="active" data-page="home">ホーム</button>
+    <button data-page="register">登録する</button>
+    <button data-page="chat">チャット</button>
+    <button data-page="list">登録一覧</button>
+  </nav>
+</header>
+<main>
+  <section id="home" class="page active">
+    <div class="hero"><span class="tag">MY LOCAL TRAVEL GUIDE</span><h2>あなたの思いが、<br>誰かの旅を特別にする。</h2><p>高校生の目線で、地域の魅力をチャットボットで案内します！</p></div>
+    <div class="menu-grid">
+      <article class="menu-card"><div class="icon">📍</div><h3>観光情報を登録する</h3><p>おすすめスポットやグルメ、体験などを、自分の言葉で登録します。</p><button class="primary" data-go="register">登録をはじめる →</button></article>
+      <article class="menu-card"><div class="icon">💬</div><h3>チャットボットで案内する</h3><p>登録した情報を使って質問に回答。案内のされ方を試してみましょう。</p><button class="primary" data-go="chat">会話してみる →</button></article>
+    </div>
+    <div class="stats"><div class="stat"><strong id="homeCount">0</strong><span>登録スポット</span></div><div class="stat"><strong id="homeCategories">0</strong><span>カテゴリー</span></div><div class="stat"><strong id="homeKeywords">0</strong><span>登録キーワード</span></div></div>
+    <div class="notice">💡 このツールは見本の観光情報を最初から入れていません。生徒自身が考えて登録した情報が、チャットボットの回答に反映されます。</div>
+    <section class="panel" id="sharePanel" style="margin-top:16px">
+      <div class="section-head"><div><h2>🔗 チャットボットを公開する</h2><p>外部の人にチャットだけを使ってもらうためのリンクとQRコードを作成します。</p></div></div>
+      <div class="notice">公開用リンクには、登録した観光情報が含まれます。まずこのHTMLファイルをWebサーバー等にアップロードしてください。パソコン内のファイルURL（file://）のままでは、外部の人はアクセスできません。</div>
+      <div class="form-actions"><button class="primary" id="makeShare">公開用リンク・QRコードを作成</button></div>
+      <div id="shareOutput" style="display:none;margin-top:16px">
+        <label for="shareUrl">公開用チャットリンク</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><input id="shareUrl" readonly aria-label="公開用チャットリンク"><button class="secondary" id="copyShare">リンクをコピー</button><button class="ghost" id="openShare">リンクを開く</button></div>
+        <div style="margin-top:16px"><strong>QRコード</strong><p class="help">QRコード画像は外部サービスを利用して表示します。</p><img id="shareQr" alt="公開用チャットのQRコード" style="width:220px;height:220px;max-width:100%;border:1px solid var(--line);border-radius:10px;padding:8px;background:white"></div>
+      </div>
+    </section>
+  </section>
+
+  <section id="register" class="page">
+    <div class="section-head"><div><h2>📝 観光情報を登録しよう</h2><p>地域の魅力を見つけて、自分の言葉で紹介しましょう。</p></div><button class="ghost" data-go="list">登録済みを見る</button></div>
+    <div class="panel">
+      <div class="notice">★印は必須項目です。登録した情報は、この端末のブラウザ内に保存されます。</div>
+      <form id="spotForm">
+        <input type="hidden" id="editId">
+        <div class="form-grid">
+          <div class="field full"><label for="spotName">① 上五島のおすすめ <span class="req">*</span></label><input id="spotName" required maxlength="100" placeholder="例：おすすめしたい場所・食べ物・体験"></div>
+          <div class="field"><label for="category">② カテゴリー <span class="req">*</span></label><select id="category" required><option value="">選択してください</option><option>自然</option><option>グルメ</option><option>歴史</option><option>体験</option><option>買い物</option><option>文化</option><option>その他</option></select></div>
+          <div class="field"><label for="audience">③ おすすめ対象</label><select id="audience"><option value="全員">全員</option><option>家族</option><option>友人</option><option>カップル</option><option>一人旅</option><option>子ども</option><option>歴史好き</option><option>自然好き</option></select></div>
+          <div class="field full"><label for="description">④ おすすめポイント <span class="req">*</span></label><textarea id="description" required maxlength="700" placeholder="上五島の魅力や、特におすすめしたいポイントを具体的に書きましょう。"></textarea></div>
+          <div class="field full"><label for="keywords">⑧ キーワード <span class="req">*</span> <span class="help">（カンマまたは読点で区切る）</span></label><input id="keywords" required maxlength="300" placeholder="例：海、絶景、写真、夕日、散策"><span class="help">利用者がどんな言葉で質問するかを想像して設定しましょう。</span></div>
+          <div class="field full"><label for="access">⑨ アクセス・補足情報（任意）</label><input id="access" maxlength="300" placeholder="例：最寄りのバス停から徒歩10分。営業情報は事前に確認。"></div>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit" id="saveBtn">＋ 登録する</button><button class="ghost" type="button" id="resetForm">入力をリセット</button></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="list" class="page">
+    <div class="section-head"><div><h2>📚 登録した観光情報</h2><p>情報の編集・削除や、CSVファイルでの保存ができます。</p></div><button class="primary" data-go="register">＋ 新しく登録する</button></div>
+    <div class="list-tools"><input id="searchList" placeholder="スポット名・キーワードで検索"><button class="secondary" id="exportCsv">CSVを書き出す</button><button class="secondary" id="importCsvBtn">CSVを読み込む</button><input type="file" id="importCsv" accept=".csv,text/csv" hidden></div>
+    <div id="spotList" class="spot-list"></div>
+    <p class="small-note">CSVの読み込みは、この端末にある登録情報に追加します。同じ名前のスポットがあっても自動では上書きしません。</p>
+  </section>
+
+  <section id="chat" class="page">
+    <div class="section-head"><div><h2>💬 観光案内チャット</h2><p>あなたが登録した観光情報をもとに回答します。</p></div><button class="ghost" id="clearChat">会話をリセット</button></div>
+    <div class="chat-layout">
+      <div class="chatbox">
+        <div class="chat-head"><div class="bot-avatar">🌴</div><div><strong>MY観光コンシェルジュ</strong><small>登録情報からおすすめを探します</small></div></div>
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <div style="padding:0 14px"><div class="quick-prompts"><button data-prompt="おすすめの観光スポットは？">おすすめは？</button><button data-prompt="海や自然を楽しみたい">自然を楽しみたい</button><button data-prompt="おいしいグルメを教えて">グルメを知りたい</button><button data-prompt="写真映えする場所は？">写真映え</button><button data-prompt="家族で楽しめる場所は？">家族向け</button></div></div>
+        <form id="chatForm" class="chat-input"><input id="chatText" placeholder="例：夕日がきれいな場所は？" autocomplete="off" aria-label="質問を入力"><button class="primary" type="submit">送信 ➤</button></form>
+      </div>
+      <aside class="panel side-panel"><h3>🔎 案内のヒント</h3><div class="tip">💡 <b>具体的に質問する</b><br>「おすすめは？」だけでなく、「写真を撮りたい」「家族で楽しみたい」など、希望を加えてみましょう。</div><div class="tip">🏷️ <b>キーワードが大切</b><br>質問に使われそうな言葉を観光情報に登録すると、見つけてもらいやすくなります。</div><div class="tip">🧪 <b>案内を試して改善</b><br>期待した回答が出ないときは、キーワードや紹介文を見直してみましょう。</div><p id="chatDataNote">現在の登録スポット：0件</p><button class="secondary" data-go="register" style="width:100%">観光情報を追加する</button></aside>
+    </div>
+    <p class="small-note">※この試作版は生成AIではなく、質問文と登録情報のキーワード・紹介文を照合して回答します。質問の言い換えや表現によっては、うまく見つけられないことがあります。</p>
+  </section>
+
+
+</main>
+<footer>中通島 観光コンシェルジュ　※掲載する観光情報・営業状況・アクセスは、公開前に必ず確認してください。</footer>
+<div class="toast" id="toast"></div>
+<script>
+const STORAGE_KEY='myTravelConciergeSpots_v1';
+const params=new URLSearchParams(location.search);
+const publicMode=params.get('chat')==='1';
+function readPublicSpots(){try{const m=location.hash.match(/(?:^#|&)spots=([^&]*)/);return m?JSON.parse(decodeURIComponent(m[1])):null}catch(e){return null}}
+const sharedSpots=publicMode?readPublicSpots():null;
+let spots=Array.isArray(sharedSpots)?sharedSpots:loadSpots();
+const $=id=>document.getElementById(id);
+function loadSpots(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch(e){return []}}
+function saveSpots(){if(!publicMode)localStorage.setItem(STORAGE_KEY,JSON.stringify(spots));refreshAll()}
+function uid(){return 's'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showToast(s){const t=$('toast');t.textContent=s;t.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.style.display='none',2400)}
+function go(page){if(publicMode)page='chat';document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='chat'&&!$('messages').children.length)welcome();refreshAll();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+function categoryEmoji(c){return ({'自然':'🏝️','グルメ':'🍜','歴史':'⛩️','体験':'🛶','買い物':'🛍️','文化':'🎨','その他':'📍'})[c]||'📍'}
+function spotCard(s,actions=false){return `<article class="spot-card"><div class="spot-emoji">${categoryEmoji(s.category)}</div><div style="min-width:0;flex:1"><h3>${esc(s.name)}</h3><span class="badge">${esc(s.category)}</span><span class="badge">${esc(s.audience||'全員')}</span><p>${esc(s.description)}</p><p>🏷️ ${esc(s.keywords||'')}</p>${s.access?`<p>📌 ${esc(s.access)}</p>`:''}${actions?`<div class="card-actions"><button class="secondary" onclick="editSpot('${s.id}')">編集</button><button class="danger" onclick="deleteSpot('${s.id}')">削除</button><button class="ghost" onclick="askAbout('${esc(s.name).replace(/'/g,"&#39;")}')">チャットで質問</button></div>`:''}</div></article>`}
+function refreshAll(){
+$('homeCount').textContent=spots.length;$('homeCategories').textContent=new Set(spots.map(s=>s.category)).size;$('homeKeywords').textContent=spots.reduce((n,s)=>n+splitKeywords(s.keywords).length,0);
+$('chatDataNote').textContent=`現在の登録スポット：${spots.length}件`;
+const q=($('searchList')?.value||'').toLowerCase();
+const filtered=spots.filter(s=>(s.name+' '+s.category+' '+s.description+' '+s.keywords).toLowerCase().includes(q));
+$('spotList').innerHTML=filtered.length?filtered.map(s=>spotCard(s,true)).join(''):`<div class="empty" style="grid-column:1/-1"><strong>${spots.length?'該当する情報がありません':'まだ情報が登録されていません'}</strong>${spots.length?'検索語を変えてみてください。':'まずは観光スポットを登録しましょう。'}<br><br><button class="primary" data-go="register">登録する</button></div>`;
+}
+function splitKeywords(s=''){return s.split(/[、,，\n]/).map(x=>x.trim()).filter(Boolean)}
+function resetForm(){ $('spotForm').reset();$('editId').value='';$('saveBtn').textContent='＋ 登録する'}
+$('resetForm').addEventListener('click',resetForm);
+$('spotForm').addEventListener('submit',e=>{
+e.preventDefault();const id=$('editId').value;
+const s={id:id||uid(),name:$('spotName').value.trim(),category:$('category').value,audience:$('audience').value,description:$('description').value.trim(),keywords:$('keywords').value.trim(),access:$('access').value.trim()};
+if(!s.name||!s.category||!s.description||!s.keywords){showToast('必須項目を入力してください');return}
+if(id){spots=spots.map(x=>x.id===id?s:x);showToast('観光情報を更新しました')}else{spots.push(s);showToast('観光情報を登録しました')}
+saveSpots();resetForm();go('list');
+});
+window.editSpot=id=>{const s=spots.find(x=>x.id===id);if(!s)return;go('register');$('editId').value=s.id;['name','category','audience','description','keywords','access'].forEach(k=>{const el=$(({name:'spotName',category:'category',audience:'audience',description:'description',keywords:'keywords',access:'access'})[k]);el.value=s[k]||''});$('saveBtn').textContent='変更を保存';window.scrollTo({top:0,behavior:'smooth'})};
+window.deleteSpot=id=>{const s=spots.find(x=>x.id===id);if(!s)return;if(confirm(`「${s.name}」を削除しますか？`)){spots=spots.filter(x=>x.id!==id);saveSpots();showToast('削除しました')}};
+$('searchList').addEventListener('input',refreshAll);
+function welcome(){addMsg('bot',spots.length?`こんにちは！中通島 観光コンシェルジュです。登録された${spots.length}件の観光情報から、おすすめを探します。<br>「海を楽しみたい」「家族向けの場所は？」など、気軽に質問してください。`:'こんにちは！中通島 観光コンシェルジュです。まだ観光情報が登録されていません。まず「観光情報を登録する」から、紹介したいスポットを登録してください。')}
+function addMsg(who,html){const d=document.createElement('div');d.className='msg '+who;d.innerHTML=`<div class="bubble">${html}</div>`;$('messages').appendChild(d);$('messages').scrollTop=$('messages').scrollHeight}
+function normalize(s){return s.toLowerCase().replace(/[ 　、。，？！!?・「」『』（）()]/g,'')}
+function answerQuestion(q){
+ if(!spots.length)return 'まだ観光情報が登録されていません。';
+ const nq=normalize(q);
+ const matched=spots.map(s=>{
+   const keys=splitKeywords(s.keywords);
+   const hits=keys.filter(k=>{const nk=normalize(k);return nk&&nq.includes(nk)});
+   return {s,hits};
+ }).filter(x=>x.hits.length>0).slice(0,3);
+ if(!matched.length)return '登録されたキーワードに一致する情報は見つかりませんでした。別の言葉で質問してみてください。';
+ return 'ご質問のキーワードに一致する情報が見つかりました。<br><br>'+matched.map(({s,hits})=>`<div style="border:1px solid #d7e7f5;border-radius:10px;padding:11px;margin:8px 0;background:#fff"><b>${categoryEmoji(s.category)} ${esc(s.name)}</b><br><span class="badge">${esc(s.category)}</span><p>${esc(s.description)}</p><p><b>一致したキーワード：</b>${hits.map(esc).join('、')}</p>${s.access?`<p><b>アクセス：</b>${esc(s.access)}</p>`:''}</div>`).join('');
+}
+function sendChat(q){q=q.trim();if(!q)return;addMsg('user',esc(q));addMsg('bot',answerQuestion(q));}
+$('chatForm').addEventListener('submit',e=>{e.preventDefault();sendChat($('chatText').value);$('chatText').value='';$('chatText').focus()});
+document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendChat(b.dataset.prompt)));
+$('clearChat').addEventListener('click',()=>{$('messages').innerHTML='';welcome()});
+window.askAbout=name=>{go('chat');sendChat(name+'について教えて')};
+function csvEscape(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+$('exportCsv').addEventListener('click',()=>{
+const fields=['name','category','audience','description','keywords','access'];
+const labels=['上五島のおすすめ','カテゴリー','おすすめ対象','おすすめポイント','キーワード','アクセス'];
+const rows=[labels,...spots.map(s=>fields.map(f=>s[f]||''))].map(row=>row.map(csvEscape).join(','));
+const blob=new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='my_kanko_info.csv';a.click();URL.revokeObjectURL(url);showToast('CSVを書き出しました');
+});
+$('importCsvBtn').addEventListener('click',()=>$('importCsv').click());
+function parseCSV(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(quoted){if(c==='"'&&text[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=false;else cell+=c}else{if(c==='"')quoted=true;else if(c===','){row.push(cell);cell=''}else if(c==='\n'){row.push(cell.replace(/\r$/,''));rows.push(row);row=[];cell=''}else cell+=c}}if(cell.length||row.length){row.push(cell.replace(/\r$/,''));rows.push(row)}return rows}
+$('importCsv').addEventListener('change',async e=>{
+const file=e.target.files[0];if(!file)return;try{const rows=parseCSV((await file.text()).replace(/^\ufeff/,''));if(rows.length<2)throw new Error('データ行がありません');const header=rows[0].map(x=>x.trim());const aliases={'上五島のおすすめ':'name','スポット名':'name','カテゴリー':'category','おすすめ対象':'audience','おすすめポイント':'description','紹介文':'description','キーワード':'keywords','アクセス':'access'};const keys=header.map(h=>aliases[h]||h);let added=0;rows.slice(1).forEach(r=>{if(!r.some(x=>x.trim()))return;const s={id:uid()};keys.forEach((k,i)=>{if(['name','category','audience','description','keywords','access'].includes(k))s[k]=(r[i]||'').trim()});if(s.name&&s.category&&s.description&&s.keywords){spots.push(s);added++}});saveSpots();showToast(`${added}件を読み込みました`)}catch(err){alert('CSVを読み込めませんでした。登録画面から書き出したCSV形式を確認してください。')}e.target.value='';
+});
+// 公開用チャットモード：管理画面を隠し、チャットだけを表示
+if(publicMode){
+ document.querySelector('header').style.display='none';
+ document.querySelectorAll('main > .page').forEach(p=>p.classList.toggle('active',p.id==='chat'));
+ const chatHead=document.querySelector('.chat-head strong');if(chatHead)chatHead.textContent='中通島 観光コンシェルジュ';
+ const sectionHead=document.querySelector('#chat .section-head');if(sectionHead)sectionHead.querySelector('h2').textContent='💬 中通島 観光案内チャット';
+ const clear=$('clearChat');if(clear)clear.textContent='会話をリセット';
+ document.querySelectorAll('#chat [data-go]').forEach(el=>el.style.display='none');
+ document.querySelectorAll('#chat .side-panel').forEach(el=>el.style.display='none');
+ document.querySelector('#chat .small-note').style.display='none';
+ if(!Array.isArray(sharedSpots)){addMsg('bot','公開用の観光情報を読み込めませんでした。発行元にリンクを確認してください。');}
+}
+$('makeShare').addEventListener('click',()=>{
+ if(!spots.length){showToast('先に観光情報を登録してください');return}
+ if(location.protocol==='file:'){showToast('先にHTMLをWeb上に公開してください');$('shareOutput').style.display='block';$('shareUrl').value='Web公開後に、このページのURLから発行してください。';$('shareQr').removeAttribute('src');return}
+ const base=location.origin+location.pathname;
+ const url=base+'?chat=1#spots='+encodeURIComponent(JSON.stringify(spots));
+ $('shareUrl').value=url;$('shareOutput').style.display='block';
+ $('shareQr').src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(url);
+});
+$('copyShare').addEventListener('click',async()=>{const value=$('shareUrl').value;if(!value||value.startsWith('Web公開後'))return;try{await navigator.clipboard.writeText(value);showToast('リンクをコピーしました')}catch(e){$('shareUrl').select();showToast('リンクを選択しました。コピーしてください')}});
+$('openShare').addEventListener('click',()=>{const value=$('shareUrl').value;if(value&&!value.startsWith('Web公開後'))window.open(value,'_blank','noopener')});
+if(publicMode){document.title='中通島 観光コンシェルジュ';}
+function refreshAllSafe(){refreshAll()}
+refreshAll();
+</script>
+</body>
+</html>
